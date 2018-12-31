@@ -27,6 +27,11 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@fortawesome/fontawesome-pro/css/fontawesome.css",
+              "node_modules/@fortawesome/fontawesome-pro/css/regular.css",
+              "node_modules/@fortawesome/fontawesome-pro/css/solid.css",
+              "node_modules/@fortawesome/fontawesome-pro/css/brands.css",
+              "node_modules/@fortawesome/fontawesome-pro/css/light.css",
               "src/styles.less"
             ],
             "scripts": []

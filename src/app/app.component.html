@@ -1,1 +1,15 @@
 <h1>Yoda Home!</h1>
+
+<h2>Température intérieur: <span *ngIf="weatherIndoorTemp"> {{weatherIndoorTemp}}</span></h2>
+<h2>Température extérieur: <span *ngIf="weatherTempTrend"> {{weatherOutdoorTemp}}
+  (<span *ngIf="weatherTempTrend === 'down'">à la baisse</span>
+  <span *ngIf="weatherTempTrend === 'stable'">stable</span>
+  <span *ngIf="weatherTempTrend === 'up'">à la hausse</span>)
+</span></h2>
+<h2>Humidité extérieure: <span *ngIf="weatherOutsideHumidity">{{weatherOutsideHumidity}}%</span></h2>
+
+<div>
+  <button mat-raised-button color="primary" (click)="stopWeatherRefresh()">Stop refresh</button>
+</div>
+
+<!--<i class="fas fa-cloud-snow"></i>-->
