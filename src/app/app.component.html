@@ -1,12 +1,30 @@
-<h1>Yoda Home!</h1>
 
-<h2>Température intérieur: <span *ngIf="weatherIndoorTemp"> {{weatherIndoorTemp}}</span></h2>
-<h2>Température extérieur: <span *ngIf="weatherTempTrend"> {{weatherOutdoorTemp}}
+
+<div>{{locality}}</div>
+
+<div>Température intérieur: <span *ngIf="weatherIndoorTemp"> {{weatherIndoorTemp}}</span></div>
+<div>Température extérieur: <span *ngIf="weatherTempTrend"> {{weatherOutdoorTemp}}
   (<span *ngIf="weatherTempTrend === 'down'">à la baisse</span>
   <span *ngIf="weatherTempTrend === 'stable'">stable</span>
   <span *ngIf="weatherTempTrend === 'up'">à la hausse</span>)
-</span></h2>
-<h2>Humidité extérieure: <span *ngIf="weatherOutsideHumidity">{{weatherOutsideHumidity}}%</span></h2>
+</span></div>
+<div>Humidité extérieure: <span *ngIf="weatherOutsideHumidity">{{weatherOutsideHumidity}}%</span></div>
+
+<div>Current condition: {{currentCondition}}</div>
+<div>Current pressure: {{currentPressure}} hPa <span *ngIf="currentPressure">{{getPressureTrend()}}</span></div>
+<div>Coucher du soleil: {{sunset*1000 | date: 'HH:mm'}}</div>
+<div>Lever du soleil: {{sunrise*1000 | date: 'HH:mm'}}</div>
+
+<div style="margin-top: 10px;"></div>
+
+<div>Conditions pour les prochaines heures</div>
+<div *ngFor="let fc of forecastForTheRestOfTheDayList; index as i">
+  <div>Forecast {{i}} - {{fc.dt*1000 | date: 'yyyy-MM-dd HH:mm'}}, temp: {{fc.main.temp}}, {{fc.weather[0].description}},
+       vents: {{getWindInKph(fc.wind.speed) | number:'.1-1'}}km/h {{getWindDirection(fc.wind.deg)}},
+    <span *ngIf="fc.snow && fc.snow['3h']">Neige {{getSnowPerHourInCm(fc.snow['3h']) | number:'.1-5'}} cm/h</span>,
+    <span *ngIf="fc.rain && fc.rain['3h']">Pluie {{getRainPerHourInMm(fc.rain['3h']) | number:'.1-5'}} mm/h</span>
+  </div>
+</div>
 
 <div>
   <button mat-raised-button color="primary" (click)="stopWeatherRefresh()">Stop refresh</button>

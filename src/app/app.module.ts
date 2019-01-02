@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { NetatmoService } from './services/netatmo.service';
 import { HttpClientModule } from '@angular/common/http';
+import { OpenWeatherMapService } from './services/open-weather-map.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatCheckboxModule
   ],
   providers: [
-    NetatmoService
+    NetatmoService,
+    OpenWeatherMapService
   ],
   bootstrap: [AppComponent]
 })
