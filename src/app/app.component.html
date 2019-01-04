@@ -1,6 +1,21 @@
+<div class="main-container">
+
+  <div class="weather-current dashboard-cell">Conditions</div>
+
+  <div class="weather-next-hours dashboard-cell">Prochaines heures</div>
+
+  <div class="weather-next-days dashboard-cell">Prochain jours</div>
+
+  <div class="thermostat dashboard-cell">Ecobe</div>
+
+  <div class="calendar dashboard-cell">Calendrier</div>
+
+</div>
 
 
-<div>{{locality}}</div>
+
+
+<div style="margin-top: 50px;">{{locality}}</div>
 
 <div>Température intérieur: <span *ngIf="weatherIndoorTemp"> {{weatherIndoorTemp}}</span></div>
 <div>Température extérieur: <span *ngIf="weatherTempTrend"> {{weatherOutdoorTemp}}
@@ -10,24 +25,36 @@
 </span></div>
 <div>Humidité extérieure: <span *ngIf="weatherOutsideHumidity">{{weatherOutsideHumidity}}%</span></div>
 
-<div>Current condition: {{currentCondition}}</div>
+<div style="margin-top: 30px; font-weight: bold">Current Condition from Open Weather ({{currentConditionTs | date: 'yyyy-MM-dd HH:mm'}}):</div>
+<div>Current condition: {{currentCondition}} <img src="{{getIconUrlForIcon(currentConditionIcon)}}"></div>
 <div>Current pressure: {{currentPressure}} hPa <span *ngIf="currentPressure">{{getPressureTrend()}}</span></div>
 <div>Coucher du soleil: {{sunset*1000 | date: 'HH:mm'}}</div>
 <div>Lever du soleil: {{sunrise*1000 | date: 'HH:mm'}}</div>
 
-<div style="margin-top: 10px;"></div>
 
-<div>Conditions pour les prochaines heures</div>
+<div style="margin-top: 30px; font-weight: bold">Prévision pour les prochaines heures ({{currentForecastTs | date: 'yyyy-MM-dd HH:mm'}})</div>
 <div *ngFor="let fc of forecastForTheRestOfTheDayList; index as i">
-  <div>Forecast {{i}} - {{fc.dt*1000 | date: 'yyyy-MM-dd HH:mm'}}, temp: {{fc.main.temp}}, {{fc.weather[0].description}},
+  <div>{{fc.dt*1000 | date: 'HH:mm'}}, temp: {{getRoundedTemp(+fc.main.temp)}}, {{fc.weather[0].description}},
        vents: {{getWindInKph(fc.wind.speed) | number:'.1-1'}}km/h {{getWindDirection(fc.wind.deg)}},
     <span *ngIf="fc.snow && fc.snow['3h']">Neige {{getSnowPerHourInCm(fc.snow['3h']) | number:'.1-5'}} cm/h</span>,
     <span *ngIf="fc.rain && fc.rain['3h']">Pluie {{getRainPerHourInMm(fc.rain['3h']) | number:'.1-5'}} mm/h</span>
+    <img src="{{getIconUrlForIcon(fc.weather[0].icon)}}">
   </div>
 </div>
 
-<div>
-  <button mat-raised-button color="primary" (click)="stopWeatherRefresh()">Stop refresh</button>
+<div style="margin-top: 30px; font-weight: bold">Prévisions pour les prochain jours</div>
+<div *ngFor="let resume of forecastForTheNextDays">
+  <div>
+    <span>{{resume.date | date: 'EEEE d LLLL' : undefined : 'fr-CA'}}, </span>
+    <span>Maximum: {{resume.maxTemp}}, </span>
+    <span>Minimum: {{resume.minTemp}}, </span>
+    <span>vents: {{resume.windSpeedAverage}} km/h {{getWindDirection(resume.windDirectionAverage)}}, </span>
+    <span>{{resume.midDayCondition}} <img src="{{getIconUrlForIcon(resume.midDayIcon)}}"></span>
+  </div>
 </div>
+
+<!--<div>
+  <button mat-raised-button color="primary" (click)="stopWeatherRefresh()">Stop refresh</button>
+</div>-->
 
 <!--<i class="fas fa-cloud-snow"></i>-->

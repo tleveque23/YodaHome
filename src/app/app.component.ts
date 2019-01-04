@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NetatmoService } from './services/netatmo.service';
-import { Observable, Subscription, timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { OpenWeatherMapService } from './services/open-weather-map.service';
+import { ForecastResume } from './services/forecast-resume';
 
 @Component({
   selector: 'app-root',
@@ -14,16 +15,19 @@ export class AppComponent implements OnInit {
   public weatherOutdoorTemp: string;
   public weatherTempTrend: string;
   public weatherOutsideHumidity: string;
-  private weatherTimerSubscription: Subscription;
-  private weatherForecastTimerSubscription: Subscription;
-  private currentCondition: string;
-  private currentPressure: string;
-  private sunset: string;
-  private sunrise: string;
-  private locality: string;
-  private previousPressure: string;
-  // private forecastList: any[];
-  private forecastForTheRestOfTheDayList: any[];
+  public weatherTimerSubscription: Subscription;
+  public weatherForecastTimerSubscription: Subscription;
+  public currentCondition: string;
+  public currentConditionIcon: string;
+  public currentPressure: string;
+  public sunset: number;
+  public sunrise: number;
+  public locality: string;
+  public previousPressure: string;
+  public forecastForTheRestOfTheDayList: any[];
+  public forecastForTheNextDays: ForecastResume[];
+  public currentConditionTs : Date;
+  public currentForecastTs: Date;
 
   constructor(private netatmoService: NetatmoService, private openWeatherMapService: OpenWeatherMapService) {}
 
@@ -33,8 +37,8 @@ export class AppComponent implements OnInit {
     this.refreshWeatherForecast();
 
     // repeat every x minutes
-    this.weatherTimerSubscription = timer(5000, this.getMillisForMinutes(1)).subscribe(() => this.refreshWeatherData());
-    this.weatherForecastTimerSubscription = timer(5000, this.getMillisForMinutes(60)).subscribe(() => this.refreshWeatherForecast());
+    this.weatherTimerSubscription = timer(5000, AppComponent.getMillisForMinutes(1)).subscribe(() => this.refreshWeatherData());
+    this.weatherForecastTimerSubscription = timer(5000, AppComponent.getMillisForMinutes(1)).subscribe(() => this.refreshWeatherForecast());
   }
 
   private refreshWeatherData() {
@@ -51,23 +55,31 @@ export class AppComponent implements OnInit {
   private refreshWeatherForecast() {
     this.openWeatherMapService.getCurrentCondition().then( (wc) => {
       this.currentCondition = wc.weather[0].description;
+      this.currentConditionIcon = wc.weather[0].icon;
 
       if (this.currentPressure) {
         this.previousPressure = this.currentPressure;
       }
       this.currentPressure = wc.main.pressure;
 
-      this.sunset = wc.sys.sunset;
-      this.sunrise = wc.sys.sunrise;
+      this.sunset = +wc.sys.sunset;
+      this.sunrise = +wc.sys.sunrise;
       this.locality = wc.name;
+
+      this.currentConditionTs = new Date(+window.localStorage.getItem('currentConditionTs'));
     });
 
     this.openWeatherMapService.getForecast().then( (fc) => {
       console.debug(`fc`);
-      this.forecastForTheRestOfTheDayList = OpenWeatherMapService.getForecastForTheRestOfTheDay(fc.list)
+      this.forecastForTheRestOfTheDayList = OpenWeatherMapService.getForecastForTheRestOfTheDay(fc.list);
+
+      this.forecastForTheNextDays = OpenWeatherMapService.getForecastForTheNextDays(fc.list);
+
+      this.currentForecastTs = new Date(+window.localStorage.getItem('currentForecastTs'));
     });
   }
 
+  // noinspection JSUnusedGlobalSymbols
   public stopWeatherRefresh() {
     this.weatherTimerSubscription.unsubscribe();
     console.debug(`Weather refresh stopped`);
@@ -80,7 +92,7 @@ export class AppComponent implements OnInit {
   }
 
 
-  private getMillisForMinutes(minute: number): number {
+  private static getMillisForMinutes(minute: number): number {
     return minute * 60 * 1000;
   }
 
@@ -122,5 +134,13 @@ export class AppComponent implements OnInit {
 
   public getWindInKph(speed: number) {
     return speed * 3.6;
+  }
+
+  public getIconUrlForIcon(icon: string): string {
+    return `http://openweathermap.org/img/w/${icon}.png`
+  }
+
+  public getRoundedTemp(temp: number): number {
+    return Math.round(temp);
   }
 }

@@ -2,3 +2,42 @@
 .example-button-row a {
   margin-right: 8px;
 }
+
+
+.main-container {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: "wCurrent wNextHours thermostat"
+                       "wCurrent wNextDays  thermostat"
+                       "calendar calendar   calendar";
+}
+
+.weather-current {
+  grid-area: wCurrent;
+}
+
+.weather-next-hours {
+  grid-area: wNextHours;
+}
+
+.weather-next-days {
+  grid-area: wNextDays;
+}
+
+.thermostat {
+  grid-area: thermostat;
+}
+
+.calendar {
+  grid-area: calendar;
+}
+
+.dashboard-cell {
+  background-color: #343434;
+  border: 2px solid #484890;
+  border-radius: 10px;
+  color: white;
+  padding: 5px;
+}

@@ -8,6 +8,11 @@ import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { NetatmoService } from './services/netatmo.service';
 import { HttpClientModule } from '@angular/common/http';
 import { OpenWeatherMapService } from './services/open-weather-map.service';
+import { registerLocaleData } from '@angular/common';
+import localeFrCa from '@angular/common/locales/fr-CA';
+import localeFrCaExtra from '@angular/common/locales/extra/fr-CA';
+
+registerLocaleData(localeFrCa, localeFrCaExtra);
 
 @NgModule({
   declarations: [
