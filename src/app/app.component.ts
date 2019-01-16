@@ -11,6 +11,7 @@ import { ForecastResume } from './services/forecast-resume';
 })
 export class AppComponent implements OnInit {
 
+  public weatherTs: Date;
   public weatherIndoorTemp: string;
   public weatherOutdoorTemp: string;
   public weatherTempTrend: string;
@@ -49,6 +50,7 @@ export class AppComponent implements OnInit {
       this.weatherOutdoorTemp = response.body.devices[0].modules[0].dashboard_data.Temperature;
       this.weatherTempTrend = response.body.devices[0].modules[0].dashboard_data.temp_trend;
       this.weatherOutsideHumidity = response.body.devices[0].modules[0].dashboard_data.Humidity;
+      this.weatherTs = new Date( +response.body.devices[0].dashboard_data.time_utc * 1000 );
     });
   }
 
@@ -71,7 +73,8 @@ export class AppComponent implements OnInit {
 
     this.openWeatherMapService.getForecast().then( (fc) => {
       console.debug(`fc`);
-      this.forecastForTheRestOfTheDayList = OpenWeatherMapService.getForecastForTheRestOfTheDay(fc.list);
+      // this.forecastForTheRestOfTheDayList = OpenWeatherMapService.getForecastForTheRestOfTheDay(fc.list);
+      this.forecastForTheRestOfTheDayList = OpenWeatherMapService.getForecastForNextHours(fc.list);
 
       this.forecastForTheNextDays = OpenWeatherMapService.getForecastForTheNextDays(fc.list);
 

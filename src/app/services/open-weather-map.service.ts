@@ -114,6 +114,16 @@ export class OpenWeatherMapService {
     return fcList;
   }
 
+  public static getForecastForNextHours(fullFcList: any[]): any[] {
+    let fcList: any[] = [];
+
+    for (let i = 0; i <= 5; i++) {
+      fcList.push(fullFcList[i]);
+    }
+
+    return fcList;
+  }
+
   public static getForecastForTheNextDays(fullFcList: any[]): ForecastResume[] {
     let fcList: ForecastResume[] = [];
 

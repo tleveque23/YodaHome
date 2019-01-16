@@ -1,15 +1,26 @@
 <div class="main-container">
 
   <div class="weather-current dashboard-cell">
-    <div class="w-current-ts">timestamp</div>
-    <div class="w-current-icon">icon</div>
-    <div class="w-current-temp">temp</div>
-    <div class="w-current-description">desc</div>
+    <div class="w-current-ts">
+      <span>{{weatherTs | date: 'yyyy-MM-dd HH:mm'}}</span>
+    </div>
+    <div class="w-current-icon"><img src="{{getIconUrlForIcon(currentConditionIcon)}}"></div>
+    <div class="w-current-temp">
+      <span id="temp">{{weatherOutdoorTemp}}</span>
+      <span class="temp-trend fas fa-caret-down" *ngIf="weatherTempTrend === 'down'"></span>
+      <span class="temp-trend fas" *ngIf="!weatherTempTrend || weatherTempTrend === 'stable'">-</span>
+      <span class="temp-trend fas fa-caret-up" *ngIf="weatherTempTrend === 'up'"></span>
+    </div>
+    <div class="w-current-description">
+      <span>{{currentCondition}}</span>
+    </div>
     <div class="w-current-wind-direction">w-direction</div>
     <div class="w-current-wind-speed">w-speed</div>
-    <div class="w-current-humidity">humidity</div>
-    <div class="w-current-pression">pression</div>
-    <div class="w-link">link to MM</div>
+    <div class="w-current-humidity">
+      <span>Humidité: {{weatherOutsideHumidity}}%</span>
+    </div>
+    <div class="w-current-pression">Pression: {{currentPressure}} hPa <span *ngIf="currentPressure">{{getPressureTrend()}}</span></div>
+    <div class="w-link"><a href="https://www.meteomedia.com/ca/meteo/quebec/saint-jerome" target="_new"><img style="width: 47px;" src="assets/images/meteo-media-logo.svg" alt="MétéoMédia"></a></div>
   </div>
 
   <div class="weather-next-hours dashboard-cell">Prochaines heures</div>
@@ -28,9 +39,9 @@
 <div style="margin-top: 50px;">{{locality}}</div>
 
 <div>Température intérieur: <span *ngIf="weatherIndoorTemp"> {{weatherIndoorTemp}}</span></div>
-<div>Température extérieur: <span *ngIf="weatherTempTrend"> {{weatherOutdoorTemp}}
+<div>Température extérieur: <span *ngIf="weatherOutdoorTemp"> {{weatherOutdoorTemp}}
   (<span *ngIf="weatherTempTrend === 'down'">à la baisse</span>
-  <span *ngIf="weatherTempTrend === 'stable'">stable</span>
+  <span *ngIf="!weatherTempTrend || weatherTempTrend === 'stable'">stable</span>
   <span *ngIf="weatherTempTrend === 'up'">à la hausse</span>)
 </span></div>
 <div>Humidité extérieure: <span *ngIf="weatherOutsideHumidity">{{weatherOutsideHumidity}}%</span></div>
