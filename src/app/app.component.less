@@ -5,10 +5,11 @@
 
 
 .main-container {
+  height: 470px;
   display: grid;
   grid-gap: 5px;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 110px 130px auto;
   grid-template-areas: "wCurrent wNextHours thermostat"
                        "wCurrent wNextDays  thermostat"
                        "calendar calendar   calendar";
@@ -26,10 +27,34 @@
 
 .weather-next-hours {
   grid-area: wNextHours;
+
+  display: flex;
+}
+
+.weather-hour {
+  margin: 2px;
+  height: ~"calc(100% - 6px)"!important
 }
 
 .weather-next-days {
   grid-area: wNextDays;
+
+  display: flex;
+}
+
+.weather-day {
+  margin: 2px;
+  height: ~"calc(100% - 6px)"!important;
+
+  text-align: center;
+  >div {
+    font-size: 0.8em;
+  }
+}
+
+.day-max-temp {
+  text-align: center;
+  margin-top: -5px;
 }
 
 .thermostat {
@@ -47,7 +72,7 @@
   color: white;
   padding: 3px;
 
-  div {
+  >div {
     width: 100%;
     height: 100%;
     background-color: cornflowerblue;
@@ -113,10 +138,22 @@
 
 .w-current-wind-direction {
   grid-column: ~"1 / span 2";
+
+  text-align: center;
+  span {
+    position: relative;
+    top: 2px;
+  }
 }
 
 .w-current-wind-speed {
   grid-column: ~"3 / span 2";
+
+  text-align: center;
+  span {
+    position: relative;
+    top: 2px;
+  }
 }
 
 .w-current-humidity {

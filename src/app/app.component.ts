@@ -3,6 +3,8 @@ import { NetatmoService } from './services/netatmo.service';
 import { Subscription, timer } from 'rxjs';
 import { OpenWeatherMapService } from './services/open-weather-map.service';
 import { ForecastResume } from './services/forecast-resume';
+import { MatDialog } from '@angular/material';
+import { SunDialogComponent } from './sun-dialog/sun-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +32,10 @@ export class AppComponent implements OnInit {
   public currentConditionTs : Date;
   public currentForecastTs: Date;
 
-  constructor(private netatmoService: NetatmoService, private openWeatherMapService: OpenWeatherMapService) {}
+  constructor(private netatmoService: NetatmoService,
+              private openWeatherMapService: OpenWeatherMapService,
+              public dialog: MatDialog
+  ) {}
 
   public ngOnInit(): void {
 
@@ -145,5 +150,24 @@ export class AppComponent implements OnInit {
 
   public getRoundedTemp(temp: number): number {
     return Math.round(temp);
+  }
+
+  public getResolution() {
+    const h = window.screen.availHeight;
+    const w = window.screen.availWidth;
+
+    return `Resolution is ${w} x ${h}`;
+  }
+
+
+  openSunDialog(): void {
+    const dialogRef = this.dialog.open(SunDialogComponent, {
+      width: '250px',
+      data: {sunrise: '7h20', sunset: '17h12'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

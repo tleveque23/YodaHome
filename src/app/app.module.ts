@@ -4,19 +4,21 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatDialogModule } from '@angular/material';
 import { NetatmoService } from './services/netatmo.service';
 import { HttpClientModule } from '@angular/common/http';
 import { OpenWeatherMapService } from './services/open-weather-map.service';
 import { registerLocaleData } from '@angular/common';
 import localeFrCa from '@angular/common/locales/fr-CA';
 import localeFrCaExtra from '@angular/common/locales/extra/fr-CA';
+import { SunDialogComponent } from './sun-dialog/sun-dialog.component';
 
 registerLocaleData(localeFrCa, localeFrCaExtra);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SunDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -24,11 +26,15 @@ registerLocaleData(localeFrCa, localeFrCaExtra);
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule
   ],
   providers: [
     NetatmoService,
     OpenWeatherMapService
+  ],
+  entryComponents: [
+    SunDialogComponent
   ],
   bootstrap: [AppComponent]
 })

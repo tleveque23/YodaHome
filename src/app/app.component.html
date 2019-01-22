@@ -2,20 +2,24 @@
 
   <div class="weather-current dashboard-cell">
     <div class="w-current-ts">
-      <span>{{weatherTs | date: 'yyyy-MM-dd HH:mm'}}</span>
+      <span (click)="openSunDialog()">{{weatherTs | date: 'yyyy-MM-dd HH:mm'}}</span>
     </div>
     <div class="w-current-icon"><img src="{{getIconUrlForIcon(currentConditionIcon)}}"></div>
     <div class="w-current-temp">
       <span id="temp">{{weatherOutdoorTemp}}</span>
       <span class="temp-trend fas fa-caret-down" *ngIf="weatherTempTrend === 'down'"></span>
-      <span class="temp-trend fas" *ngIf="!weatherTempTrend || weatherTempTrend === 'stable'">-</span>
+      <span class="temp-trend fas" *ngIf="!weatherTempTrend || weatherTempTrend === 'stable'"></span>
       <span class="temp-trend fas fa-caret-up" *ngIf="weatherTempTrend === 'up'"></span>
     </div>
     <div class="w-current-description">
       <span>{{currentCondition}}</span>
     </div>
-    <div class="w-current-wind-direction">w-direction</div>
-    <div class="w-current-wind-speed">w-speed</div>
+    <div class="w-current-wind-direction">
+      <span>NO</span>
+    </div>
+    <div class="w-current-wind-speed">
+      <span>14km/h</span>
+    </div>
     <div class="w-current-humidity">
       <span>Humidité: {{weatherOutsideHumidity}}%</span>
     </div>
@@ -23,9 +27,27 @@
     <div class="w-link"><a href="https://www.meteomedia.com/ca/meteo/quebec/saint-jerome" target="_new"><img style="width: 47px;" src="assets/images/meteo-media-logo.svg" alt="MétéoMédia"></a></div>
   </div>
 
-  <div class="weather-next-hours dashboard-cell">Prochaines heures</div>
+  <div class="weather-next-hours dashboard-cell">
 
-  <div class="weather-next-days dashboard-cell">Prochain jours</div>
+    <div *ngFor="let fc of forecastForTheRestOfTheDayList; index as i" class="weather-hour">
+      <div>
+        <div style="text-align: center">{{fc.dt*1000 | date: 'HH:mm'}}</div>
+        <div><img src="{{getIconUrlForIcon(fc.weather[0].icon)}}" ></div>
+        <div style="text-align: center">{{getRoundedTemp(+fc.main.temp)}}</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="weather-next-days dashboard-cell">
+    <div *ngFor="let resume of forecastForTheNextDays" class="weather-day">
+      <div>{{resume.date | date: 'EEEE d LLLL' : undefined : 'fr-CA'}}</div>
+      <div><img src="{{getIconUrlForIcon(resume.midDayIcon)}}" ></div>
+      <div class="day-max-temp">max: {{resume.maxTemp}}</div>
+      <div style="text-align: center">min: {{resume.minTemp}}</div>
+    </div>
+  </div>
 
   <div class="thermostat dashboard-cell">Ecobe</div>
 
@@ -34,11 +56,12 @@
 </div>
 
 
+<div>{{getResolution()}}}</div>
 
 
 <div style="margin-top: 50px;">{{locality}}</div>
 
-<div>Température intérieur: <span *ngIf="weatherIndoorTemp"> {{weatherIndoorTemp}}</span></div>
+<!--<div>Température intérieur: <span *ngIf="weatherIndoorTemp"> {{weatherIndoorTemp}}</span></div>
 <div>Température extérieur: <span *ngIf="weatherOutdoorTemp"> {{weatherOutdoorTemp}}
   (<span *ngIf="weatherTempTrend === 'down'">à la baisse</span>
   <span *ngIf="!weatherTempTrend || weatherTempTrend === 'stable'">stable</span>
@@ -48,7 +71,7 @@
 
 <div style="margin-top: 30px; font-weight: bold">Current Condition from Open Weather ({{currentConditionTs | date: 'yyyy-MM-dd HH:mm'}}):</div>
 <div>Current condition: {{currentCondition}} <img src="{{getIconUrlForIcon(currentConditionIcon)}}"></div>
-<div>Current pressure: {{currentPressure}} hPa <span *ngIf="currentPressure">{{getPressureTrend()}}</span></div>
+<div>Current pressure: {{currentPressure}} hPa <span *ngIf="currentPressure">{{getPressureTrend()}}</span></div>-->
 <div>Coucher du soleil: {{sunset*1000 | date: 'HH:mm'}}</div>
 <div>Lever du soleil: {{sunrise*1000 | date: 'HH:mm'}}</div>
 
