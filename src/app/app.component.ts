@@ -5,11 +5,15 @@ import { OpenWeatherMapService } from './services/open-weather-map.service';
 import { ForecastResume } from './services/forecast-resume';
 import { MatDialog } from '@angular/material';
 import { SunDialogComponent } from './sun-dialog/sun-dialog.component';
+import { DatePipe } from '@angular/common';
+import { EcobeService } from './services/ecobe.service';
+import { Utils } from './utils';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrls: ['./app.component.less'],
+  providers: [DatePipe]
 })
 export class AppComponent implements OnInit {
 
@@ -34,17 +38,20 @@ export class AppComponent implements OnInit {
 
   constructor(private netatmoService: NetatmoService,
               private openWeatherMapService: OpenWeatherMapService,
-              public dialog: MatDialog
+              public dialog: MatDialog,
+              private datePipe: DatePipe,
+              private ecobeService: EcobeService
   ) {}
 
   public ngOnInit(): void {
 
     this.refreshWeatherData();
     this.refreshWeatherForecast();
+    this.refreshEcobeData();
 
     // repeat every x minutes
-    this.weatherTimerSubscription = timer(5000, AppComponent.getMillisForMinutes(1)).subscribe(() => this.refreshWeatherData());
-    this.weatherForecastTimerSubscription = timer(5000, AppComponent.getMillisForMinutes(1)).subscribe(() => this.refreshWeatherForecast());
+    this.weatherTimerSubscription = timer(5000, Utils.getMillisForMinutes(1)).subscribe(() => this.refreshWeatherData());
+    this.weatherForecastTimerSubscription = timer(5000, Utils.getMillisForMinutes(1)).subscribe(() => this.refreshWeatherForecast());
   }
 
   private refreshWeatherData() {
@@ -99,10 +106,6 @@ export class AppComponent implements OnInit {
     console.debug(`Weather Forecast refresh stopped`);
   }
 
-
-  private static getMillisForMinutes(minute: number): number {
-    return minute * 60 * 1000;
-  }
 
   public getPressureTrend() {
     if (!this.previousPressure || this.currentPressure === this.previousPressure) {
@@ -162,12 +165,16 @@ export class AppComponent implements OnInit {
 
   openSunDialog(): void {
     const dialogRef = this.dialog.open(SunDialogComponent, {
-      width: '250px',
-      data: {sunrise: '7h20', sunset: '17h12'}
+      width: '350px',
+      data: {sunrise: this.datePipe.transform(this.sunrise*1000, 'HH:mm'), sunset: this.datePipe.transform(this.sunset*1000, 'HH:mm')}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  private refreshEcobeData() {
+    this.ecobeService.getThermostatData()
   }
 }

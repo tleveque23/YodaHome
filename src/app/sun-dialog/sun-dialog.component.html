@@ -1,7 +1,10 @@
-<h1 mat-dialog-title>Hi there!</h1>
-<div mat-dialog-content>
-  <div>Sunrise: {{data.sunrise}}</div>
+<h1 mat-dialog-title>Lever et coucher du soleil</h1>
+<div mat-dialog-content style="display: inline">
+  <div>Lever: {{data.sunrise}}</div>
+  <div>Coucher: {{data.sunset}}</div>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Ok</button>
+<div mat-dialog-actions >
+  <button mat-button (click)="onOkClick()" style="margin-left:auto;margin-right:auto;">
+    Ok
+  </button>
 </div>

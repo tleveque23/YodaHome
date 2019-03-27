@@ -8,7 +8,7 @@
     <div class="w-current-temp">
       <span id="temp">{{weatherOutdoorTemp}}</span>
       <span class="temp-trend fas fa-caret-down" *ngIf="weatherTempTrend === 'down'"></span>
-      <span class="temp-trend fas" *ngIf="!weatherTempTrend || weatherTempTrend === 'stable'"></span>
+      <span class="temp-trend fas fa-caret-up" *ngIf="!weatherTempTrend || weatherTempTrend === 'stable'"></span>
       <span class="temp-trend fas fa-caret-up" *ngIf="weatherTempTrend === 'up'"></span>
     </div>
     <div class="w-current-description">
@@ -56,10 +56,10 @@
 </div>
 
 
-<div>{{getResolution()}}}</div>
+<!--<div>{{getResolution()}}}</div>
 
 
-<div style="margin-top: 50px;">{{locality}}</div>
+<div style="margin-top: 50px;">{{locality}}</div>-->
 
 <!--<div>Température intérieur: <span *ngIf="weatherIndoorTemp"> {{weatherIndoorTemp}}</span></div>
 <div>Température extérieur: <span *ngIf="weatherOutdoorTemp"> {{weatherOutdoorTemp}}
@@ -72,7 +72,7 @@
 <div style="margin-top: 30px; font-weight: bold">Current Condition from Open Weather ({{currentConditionTs | date: 'yyyy-MM-dd HH:mm'}}):</div>
 <div>Current condition: {{currentCondition}} <img src="{{getIconUrlForIcon(currentConditionIcon)}}"></div>
 <div>Current pressure: {{currentPressure}} hPa <span *ngIf="currentPressure">{{getPressureTrend()}}</span></div>-->
-<div>Coucher du soleil: {{sunset*1000 | date: 'HH:mm'}}</div>
+<!--<div>Coucher du soleil: {{sunset*1000 | date: 'HH:mm'}}</div>
 <div>Lever du soleil: {{sunrise*1000 | date: 'HH:mm'}}</div>
 
 
@@ -95,7 +95,7 @@
     <span>vents: {{resume.windSpeedAverage}} km/h {{getWindDirection(resume.windDirectionAverage)}}, </span>
     <span>{{resume.midDayCondition}} <img src="{{getIconUrlForIcon(resume.midDayIcon)}}"></span>
   </div>
-</div>
+</div>-->
 
 <!--<div>
   <button mat-raised-button color="primary" (click)="stopWeatherRefresh()">Stop refresh</button>

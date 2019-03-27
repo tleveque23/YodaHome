@@ -12,6 +12,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFrCa from '@angular/common/locales/fr-CA';
 import localeFrCaExtra from '@angular/common/locales/extra/fr-CA';
 import { SunDialogComponent } from './sun-dialog/sun-dialog.component';
+import { EcobeService } from './services/ecobe.service';
 
 registerLocaleData(localeFrCa, localeFrCaExtra);
 
@@ -31,7 +32,8 @@ registerLocaleData(localeFrCa, localeFrCaExtra);
   ],
   providers: [
     NetatmoService,
-    OpenWeatherMapService
+    OpenWeatherMapService,
+    EcobeService
   ],
   entryComponents: [
     SunDialogComponent
