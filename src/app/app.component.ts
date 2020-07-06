@@ -24,6 +24,8 @@ export class AppComponent implements OnInit {
   public weatherOutsideHumidity: string;
   public weatherTimerSubscription: Subscription;
   public weatherForecastTimerSubscription: Subscription;
+  public weatherWindSpeed: number;
+  public weatherWindDirection: number;
   public currentCondition: string;
   public currentConditionIcon: string;
   public currentPressure: string;
@@ -63,6 +65,8 @@ export class AppComponent implements OnInit {
       this.weatherTempTrend = response.body.devices[0].modules[0].dashboard_data.temp_trend;
       this.weatherOutsideHumidity = response.body.devices[0].modules[0].dashboard_data.Humidity;
       this.weatherTs = new Date( +response.body.devices[0].dashboard_data.time_utc * 1000 );
+      this.weatherWindSpeed = response.body.devices[0].modules[2].dashboard_data.WindStrength;
+      this.weatherWindDirection = response.body.devices[0].modules[2].dashboard_data.WindAngle;
     });
   }
 
@@ -119,18 +123,18 @@ export class AppComponent implements OnInit {
     }
   }
 
-  public getWindDirection(deg: string): string {
+  public getWindDirection(deg: number): string {
     if ( (+deg >= 0 && +deg) < 45 || +deg >=315) {
-      return 'du nord';
+      return 'N';
     }
     else if ( +deg >= 45 && +deg < 135) {
-      return `de l'est`;
+      return `E`;
     }
     else if ( +deg >= 135 && +deg < 225) {
-      return `du sud`;
+      return `S`;
     }
     else {
-      return `de l'ouest`;
+      return `O`;
     }
 
   }
@@ -176,5 +180,9 @@ export class AppComponent implements OnInit {
 
   private refreshEcobeData() {
     this.ecobeService.getThermostatData()
+  }
+
+  public getWindIconRotation() {
+    return 'rotate(' + this.weatherWindDirection +'deg)'
   }
 }

@@ -9,10 +9,9 @@
   display: grid;
   grid-gap: 5px;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: 130px 130px auto;
-  grid-template-areas: "wCurrent wNextHours thermostat"
-                       "wCurrent wNextDays  thermostat"
-                       "calendar calendar   calendar";
+  grid-template-rows: auto 130px 130px;
+  grid-template-areas: "wNextHours wCurrent"
+                       "wNextDays  wCurrent";
 }
 
 .weather-current {
@@ -88,28 +87,37 @@
 
 
 .w-current-ts {
+  display: grid;
+  place-items: center;
+
   grid-column: ~"1 / -1";
 
   text-align: center;
 
   span {
     position: relative;
-    top: 4px;
+    //top: 4px;
   }
 }
 
 .w-current-icon{
+  display: grid;
+  place-items: center;
+
   grid-column: ~"1 / span 2";
 
   text-align: center;
 
   img {
     position: relative;
-    top: 9px;
+    //top: 9px;
   }
 }
 
 .w-current-temp{
+  display: grid;
+  place-items: center;
+
   grid-column: ~"3 / span 2";
 
   text-align: center;
@@ -128,6 +136,10 @@
 }
 
 .w-current-description {
+
+  display: grid;
+  place-items: center;
+
   grid-column: ~"1 / -1";
 
   text-align: center;
@@ -136,31 +148,40 @@
 
   span {
     position: relative;
-    top: 3px;
+    //top: 3px;
   }
 }
 
 .w-current-wind-direction {
+  display: grid;
+  place-items: center;
+
   grid-column: ~"1 / span 2";
 
   text-align: center;
   span {
     position: relative;
-    top: 4px;
+    //top: 4px;
   }
 }
 
 .w-current-wind-speed {
+  display: grid;
+  place-items: center;
+
   grid-column: ~"3 / span 2";
 
   text-align: center;
   span {
     position: relative;
-    top: 4px;
+    //top: 4px;
   }
 }
 
 .w-current-humidity {
+  display: grid;
+  place-items: center;
+
   grid-column: ~"1 / span 3";
 
   text-align: center;
@@ -168,11 +189,14 @@
 
   span {
     position: relative;
-    top: 4px;
+    //top: 4px;
   }
 }
 
 .w-current-pression {
+  display: grid;
+  place-items: center;
+
   grid-column: ~"1 / span 3";
 
   text-align: center;
@@ -180,6 +204,9 @@
 }
 
 .w-link {
+  display: grid;
+  place-items: center;
+
   grid-column: ~"4 / -1";
   grid-row: ~"5 / 7";
 
@@ -187,7 +214,7 @@
 
   img {
     position: relative;
-    top: 9px;
+    //top: 9px;
   }
 }
 

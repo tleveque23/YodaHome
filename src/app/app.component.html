@@ -15,10 +15,10 @@
       <span>{{currentCondition}}</span>
     </div>
     <div class="w-current-wind-direction">
-      <span>NO</span>
+      <span><i class="fas fa-arrow-circle-down" [ngStyle]="{'transform': getWindIconRotation()}" ></i></span>
     </div>
     <div class="w-current-wind-speed">
-      <span>14km/h</span>
+      <span>{{weatherWindSpeed}} km/h</span>
     </div>
     <div class="w-current-humidity">
       <span>Humidité: {{weatherOutsideHumidity}}%</span>
@@ -49,9 +49,9 @@
     </div>
   </div>
 
-  <div class="thermostat dashboard-cell">Ecobe</div>
+  <!--<div class="thermostat dashboard-cell">Ecobe</div>
 
-  <div class="calendar dashboard-cell">Calendrier</div>
+  <div class="calendar dashboard-cell">Calendrier</div>-->
 
 </div>
 
