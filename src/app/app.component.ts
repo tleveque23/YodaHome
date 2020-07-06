@@ -3,7 +3,7 @@ import { NetatmoService } from './services/netatmo.service';
 import { Subscription, timer } from 'rxjs';
 import { OpenWeatherMapService } from './services/open-weather-map.service';
 import { ForecastResume } from './services/forecast-resume';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { SunDialogComponent } from './sun-dialog/sun-dialog.component';
 import { DatePipe } from '@angular/common';
 import { EcobeService } from './services/ecobe.service';
