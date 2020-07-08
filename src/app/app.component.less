@@ -8,8 +8,8 @@
   height: 470px;
   display: grid;
   grid-gap: 5px;
-  grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: auto 130px 130px;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 200px 200px;
   grid-template-areas: "wNextHours wCurrent"
                        "wNextDays  wCurrent";
 }
@@ -221,4 +221,14 @@
 
 div.thermostat.dashboard-cell {
   background-color: #000000;
+}
+
+.notUpToDate {
+  color: red;
+}
+
+
+.indoorTemp {
+  font-size: 0.6em;
+  color: #c9efd6;
 }

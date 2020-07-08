@@ -9,6 +9,8 @@ import { DatePipe } from '@angular/common';
 import { EcobeService } from './services/ecobe.service';
 import { Utils } from './utils';
 
+const FAN_INTERVAL = 15;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -37,6 +39,12 @@ export class AppComponent implements OnInit {
   public forecastForTheNextDays: ForecastResume[];
   public currentConditionTs : Date;
   public currentForecastTs: Date;
+  public tempIsNotUpToDate: boolean = false;
+  public tempColor: string = 'rgb(255,255,255)';
+  public diffInMinutes: number;
+  public fanOn: boolean;
+
+  private ecobeServiceReady: boolean = false;
 
   constructor(private netatmoService: NetatmoService,
               private openWeatherMapService: OpenWeatherMapService,
@@ -49,7 +57,7 @@ export class AppComponent implements OnInit {
 
     this.refreshWeatherData();
     this.refreshWeatherForecast();
-    this.refreshEcobeData();
+    this.initEcobeAuthorization();
 
     // repeat every x minutes
     this.weatherTimerSubscription = timer(5000, Utils.getMillisForMinutes(1)).subscribe(() => this.refreshWeatherData());
@@ -67,6 +75,35 @@ export class AppComponent implements OnInit {
       this.weatherTs = new Date( +response.body.devices[0].dashboard_data.time_utc * 1000 );
       this.weatherWindSpeed = response.body.devices[0].modules[2].dashboard_data.WindStrength;
       this.weatherWindDirection = response.body.devices[0].modules[2].dashboard_data.WindAngle;
+
+      const now = new Date();
+      /*console.log('Now:')
+      console.log(now);
+      console.log('TS');
+      console.log(this.weatherTs);
+      console.log(now.getTime());
+      console.log(this.weatherTs.getTime());
+      console.log(now.getTime() - this.weatherTs.getTime());*/
+      const diff = now.getTime() - this.weatherTs.getTime();
+      this.tempIsNotUpToDate = diff > 600000;
+      if (this.tempIsNotUpToDate) {
+        this.diffInMinutes = diff / 1000 / 60
+      }
+      else {
+        this.diffInMinutes = undefined;
+      }
+
+      if (this.ecobeServiceReady) {
+        if (this.weatherIndoorTemp >= this.weatherOutdoorTemp) {
+          this.ecobeService.setFanInterval(FAN_INTERVAL);
+          this.fanOn = true;
+        }
+        else {
+          this.ecobeService.setFanInterval(0);
+          this.tempColor = 'rgb(255,72,0)'
+          this.fanOn = false;
+        }
+      }
     });
   }
 
@@ -178,8 +215,13 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private refreshEcobeData() {
-    this.ecobeService.getThermostatData()
+  private initEcobeAuthorization() {
+    this.ecobeService.readyEmitter.subscribe(() => {
+      console.log('Ready to request data from Ecobe API');
+      this.ecobeServiceReady = true;
+    });
+
+    this.ecobeService.initAuthorization();
   }
 
   public getWindIconRotation() {

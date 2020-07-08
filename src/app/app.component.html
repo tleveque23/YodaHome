@@ -2,11 +2,15 @@
 
   <div class="weather-current dashboard-cell">
     <div class="w-current-ts">
-      <span (click)="openSunDialog()">{{weatherTs | date: 'yyyy-MM-dd HH:mm'}}</span>
+      <span (click)="openSunDialog()" [class.notUpToDate]="tempIsNotUpToDate">
+        {{weatherTs | date: 'yyyy-MM-dd HH:mm'}}
+        <span *ngIf="diffInMinutes"> ( {{diffInMinutes | number :'1.1-1'}} minutes ) </span>
+        <span *ngIf="fanOn"><i class="fas fa-fan"></i></span>
+      </span>
     </div>
     <div class="w-current-icon"><img src="{{getIconUrlForIcon(currentConditionIcon)}}"></div>
     <div class="w-current-temp">
-      <span id="temp">{{weatherOutdoorTemp}}</span>
+      <span id="temp" ><span [style]="{'color': tempColor}">{{weatherOutdoorTemp}}</span> <span class="indoorTemp"> ({{weatherIndoorTemp}})</span></span>
       <span class="temp-trend fas fa-caret-down" *ngIf="weatherTempTrend === 'down'"></span>
       <span class="temp-trend fas fa-caret-up" *ngIf="!weatherTempTrend || weatherTempTrend === 'stable'"></span>
       <span class="temp-trend fas fa-caret-up" *ngIf="weatherTempTrend === 'up'"></span>
