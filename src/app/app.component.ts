@@ -23,11 +23,12 @@ export class AppComponent implements OnInit {
   public weatherIndoorTemp: string;
   public weatherOutdoorTemp: string;
   public weatherTempTrend: string;
-  public weatherOutsideHumidity: string;
   public weatherTimerSubscription: Subscription;
   public weatherForecastTimerSubscription: Subscription;
   public weatherWindSpeed: number;
   public weatherWindDirection: number;
+  public weatherOutdoorHumidity: number;
+  public weatherOutdoorHumidex: number;
   public currentCondition: string;
   public currentConditionIcon: string;
   public currentPressure: string;
@@ -70,11 +71,12 @@ export class AppComponent implements OnInit {
 
       this.weatherIndoorTemp = response.body.devices[0].dashboard_data.Temperature;
       this.weatherOutdoorTemp = response.body.devices[0].modules[0].dashboard_data.Temperature;
+      this.weatherOutdoorHumidity = response.body.devices[0].modules[0].dashboard_data.Humidity;
       this.weatherTempTrend = response.body.devices[0].modules[0].dashboard_data.temp_trend;
-      this.weatherOutsideHumidity = response.body.devices[0].modules[0].dashboard_data.Humidity;
       this.weatherTs = new Date( +response.body.devices[0].dashboard_data.time_utc * 1000 );
       this.weatherWindSpeed = response.body.devices[0].modules[2].dashboard_data.WindStrength;
       this.weatherWindDirection = response.body.devices[0].modules[2].dashboard_data.WindAngle;
+      this.weatherOutdoorHumidex = this.calculHumidex();
 
       const now = new Date();
       /*console.log('Now:')
@@ -97,6 +99,7 @@ export class AppComponent implements OnInit {
         if (this.weatherIndoorTemp >= this.weatherOutdoorTemp) {
           this.ecobeService.setFanInterval(FAN_INTERVAL);
           this.fanOn = true;
+          this.tempColor = 'rgb(255,255,255)'
         }
         else {
           this.ecobeService.setFanInterval(0);
@@ -226,5 +229,22 @@ export class AppComponent implements OnInit {
 
   public getWindIconRotation() {
     return 'rotate(' + this.weatherWindDirection +'deg)'
+  }
+
+  /**
+   * Calcul Humidex: https://fr.wikipedia.org/wiki/Indice_humidex
+   * Calcul Point de rosée: https://fr.wikipedia.org/wiki/Point_de_ros%C3%A9e
+   */
+  private calculHumidex(): number {
+    const H = 67;// this.weatherOutdoorHumidity;
+    const T = 23.2; // this.weatherOutdoorTemp
+    console.log('******************');
+    const pointDeRosee = Math.pow((H/100), 1/8) * (112 + (0.9 * T)) + (0.1 * T) - 112;
+
+    const humidex = T + 0.5555 * ( 6.11 * Math.pow( 2.71828, 5417.7530 * ( 1/273.16 - 1/(273.15 + pointDeRosee)) ) - 10 );
+
+    console.log(pointDeRosee);
+    console.log(humidex);
+    return humidex;
   }
 }

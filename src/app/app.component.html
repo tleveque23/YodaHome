@@ -8,7 +8,7 @@
         <span *ngIf="fanOn"><i class="fas fa-fan"></i></span>
       </span>
     </div>
-    <div class="w-current-icon"><img src="{{getIconUrlForIcon(currentConditionIcon)}}"></div>
+    <div class="w-current-icon"><img src="{{getIconUrlForIcon(currentConditionIcon)}}" width="100px" alt="conditions"></div>
     <div class="w-current-temp">
       <span id="temp" ><span [style]="{'color': tempColor}">{{weatherOutdoorTemp}}</span> <span class="indoorTemp"> ({{weatherIndoorTemp}})</span></span>
       <span class="temp-trend fas fa-caret-down" *ngIf="weatherTempTrend === 'down'"></span>
@@ -16,7 +16,7 @@
       <span class="temp-trend fas fa-caret-up" *ngIf="weatherTempTrend === 'up'"></span>
     </div>
     <div class="w-current-description">
-      <span>{{currentCondition}}</span>
+      <span>Humidité: {{weatherOutdoorHumidity}}%</span> <span>Humidex: {{weatherOutdoorHumidex | number: '1.0-0'}}</span>
     </div>
     <div class="w-current-wind-direction">
       <span><i class="fas fa-arrow-circle-down" [ngStyle]="{'transform': getWindIconRotation()}" ></i></span>
@@ -24,10 +24,13 @@
     <div class="w-current-wind-speed">
       <span>{{weatherWindSpeed}} km/h</span>
     </div>
-    <div class="w-current-humidity">
-      <span>Humidité: {{weatherOutsideHumidity}}%</span>
+    <!--<div class="w-current-humidity">
+      <span>Humidité: {{weatherOutsideHumidity}} % </span>
+    </div>-->
+    <div class="w-current-pression">
+      <span>Pression: {{currentPressure}} hPa</span>
+      <span *ngIf="currentPressure">{{getPressureTrend()}}</span>
     </div>
-    <div class="w-current-pression">Pression: {{currentPressure}} hPa <span *ngIf="currentPressure">{{getPressureTrend()}}</span></div>
     <div class="w-link"><a href="https://www.meteomedia.com/ca/meteo/quebec/saint-jerome" target="_new"><img style="width: 47px;" src="assets/images/meteo-media-logo.svg" alt="MétéoMédia"></a></div>
   </div>
 
