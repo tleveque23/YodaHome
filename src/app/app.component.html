@@ -10,7 +10,7 @@
     </div>
     <div class="w-current-icon"><img src="{{getIconUrlForIcon(currentConditionIcon)}}" width="100px" alt="conditions"></div>
     <div class="w-current-temp">
-      <span id="temp" ><span [style]="{'color': tempColor}">{{weatherOutdoorTemp}}</span> <span class="indoorTemp"> ({{weatherIndoorTemp}})</span></span>
+      <span id="temp" ><span >{{weatherOutdoorTemp}}</span> <span class="indoorTemp"> ({{weatherIndoorTemp}})</span></span>
       <span class="temp-trend fas fa-caret-down" *ngIf="weatherTempTrend === 'down'"></span>
       <span class="temp-trend fas fa-caret-up" *ngIf="!weatherTempTrend || weatherTempTrend === 'stable'"></span>
       <span class="temp-trend fas fa-caret-up" *ngIf="weatherTempTrend === 'up'"></span>

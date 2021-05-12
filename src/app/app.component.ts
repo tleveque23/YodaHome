@@ -79,13 +79,13 @@ export class AppComponent implements OnInit {
       this.weatherOutdoorHumidex = this.calculHumidex();
 
       const now = new Date();
-      /*console.log('Now:')
+      console.log('Now:')
       console.log(now);
       console.log('TS');
       console.log(this.weatherTs);
       console.log(now.getTime());
       console.log(this.weatherTs.getTime());
-      console.log(now.getTime() - this.weatherTs.getTime());*/
+      console.log(now.getTime() - this.weatherTs.getTime());
       const diff = now.getTime() - this.weatherTs.getTime();
       this.tempIsNotUpToDate = diff > 600000;
       if (this.tempIsNotUpToDate) {
@@ -96,14 +96,16 @@ export class AppComponent implements OnInit {
       }
 
       if (this.ecobeServiceReady) {
-        if (this.weatherIndoorTemp >= this.weatherOutdoorTemp) {
-          this.ecobeService.setFanInterval(FAN_INTERVAL);
+        if (this.weatherIndoorTemp >= this.weatherOutdoorTemp && +this.weatherOutdoorTemp > 15) {
+          console.log(`Temp intérieur (${this.weatherIndoorTemp}) >= temp ext (${this.weatherOutdoorTemp} && > 15. On met la fan à ${FAN_INTERVAL} minutes`)
+          // this.ecobeService.setFanInterval(FAN_INTERVAL);
           this.fanOn = true;
           this.tempColor = 'rgb(255,255,255)'
         }
         else {
-          this.ecobeService.setFanInterval(0);
-          this.tempColor = 'rgb(255,72,0)'
+          console.log('On ferme la fan')
+          // this.ecobeService.setFanInterval(0);
+          this.tempColor = 'rgb(255,255,255)'
           this.fanOn = false;
         }
       }
