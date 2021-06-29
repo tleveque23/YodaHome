@@ -31,7 +31,8 @@ export class EcobeService {
         console.log('Request access response:')
         console.log(response);
         this.authorizationToken = response.code;
-        console.info(`Ecobe PIN: ${response.ecobeePin}`)
+        console.info(`Ecobe PIN: ${response.ecobeePin}`);
+        console.log('Now go to https://www.ecobee.com/consumerportal, log-in and go to My Apps and Add Application and enter this token');
 
         this.authorizationTimerSubscription = timer(5000, Utils.getMillisForMinutes(1)).subscribe(() => this.getAuthorization());
       });

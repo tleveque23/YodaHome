@@ -9,7 +9,8 @@ import { DatePipe } from '@angular/common';
 import { EcobeService } from './services/ecobe.service';
 import { Utils } from './utils';
 
-const FAN_INTERVAL = 15;
+const FAN_INTERVAL = 10;
+const FAN_INTERVAL_LONG = 25;
 
 @Component({
   selector: 'app-root',
@@ -97,14 +98,14 @@ export class AppComponent implements OnInit {
 
       if (this.ecobeServiceReady) {
         if (this.weatherIndoorTemp >= this.weatherOutdoorTemp && +this.weatherOutdoorTemp > 15) {
-          console.log(`Temp intérieur (${this.weatherIndoorTemp}) >= temp ext (${this.weatherOutdoorTemp} && > 15. On met la fan à ${FAN_INTERVAL} minutes`)
-          // this.ecobeService.setFanInterval(FAN_INTERVAL);
+          console.log(`Temp intérieur (${this.weatherIndoorTemp}) >= temp ext (${this.weatherOutdoorTemp} && > 15. On met la fan à ${+this.weatherIndoorTemp < 24 ? FAN_INTERVAL : FAN_INTERVAL_LONG} minutes`)
+          this.ecobeService.setFanInterval( +this.weatherIndoorTemp < 24 ? FAN_INTERVAL : FAN_INTERVAL_LONG);
           this.fanOn = true;
           this.tempColor = 'rgb(255,255,255)'
         }
         else {
           console.log('On ferme la fan')
-          // this.ecobeService.setFanInterval(0);
+          this.ecobeService.setFanInterval(0);
           this.tempColor = 'rgb(255,255,255)'
           this.fanOn = false;
         }
