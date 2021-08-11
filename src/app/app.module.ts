@@ -15,6 +15,8 @@ import localeFrCa from '@angular/common/locales/fr-CA';
 import localeFrCaExtra from '@angular/common/locales/extra/fr-CA';
 import { SunDialogComponent } from './sun-dialog/sun-dialog.component';
 import { EcobeService } from './services/ecobe.service';
+import { MatSliderModule } from '@angular/material/slider';
+import { FormsModule } from '@angular/forms';
 
 registerLocaleData(localeFrCa, localeFrCaExtra);
 
@@ -30,7 +32,9 @@ registerLocaleData(localeFrCa, localeFrCaExtra);
     BrowserAnimationsModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSliderModule,
+    FormsModule
   ],
   providers: [
     NetatmoService,

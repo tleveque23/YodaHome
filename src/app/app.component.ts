@@ -46,6 +46,9 @@ export class AppComponent implements OnInit {
   public diffInMinutes: number;
   public fanOn: boolean;
 
+  public fanInterval = FAN_INTERVAL;
+  public fanIntervalLong = FAN_INTERVAL_LONG;
+
   private ecobeServiceReady: boolean = false;
 
   constructor(private netatmoService: NetatmoService,
@@ -98,8 +101,8 @@ export class AppComponent implements OnInit {
 
       if (this.ecobeServiceReady) {
         if (this.weatherIndoorTemp >= this.weatherOutdoorTemp && +this.weatherOutdoorTemp > 15) {
-          console.log(`Temp intérieur (${this.weatherIndoorTemp}) >= temp ext (${this.weatherOutdoorTemp} && > 15. On met la fan à ${+this.weatherIndoorTemp < 24 ? FAN_INTERVAL : FAN_INTERVAL_LONG} minutes`)
-          this.ecobeService.setFanInterval( +this.weatherIndoorTemp < 24 ? FAN_INTERVAL : FAN_INTERVAL_LONG);
+          console.log(`Temp intérieur (${this.weatherIndoorTemp}) >= temp ext (${this.weatherOutdoorTemp} && > 15. On met la fan à ${+this.weatherIndoorTemp < 24 ? this.fanInterval : this.fanIntervalLong} minutes`)
+          this.ecobeService.setFanInterval( +this.weatherIndoorTemp < 24 ? this.fanInterval : this.fanIntervalLong);
           this.fanOn = true;
           this.tempColor = 'rgb(255,255,255)'
         }
